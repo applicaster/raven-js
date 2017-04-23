@@ -213,7 +213,9 @@ reactNativePlugin._normalizeData = function (data, pathStripRe) {
     }
 
     if (data.culprit) {
-        data.culprit = normalizeUrl(data.culprit, pathStripRe);
+        // data.culprit = normalizeUrl(data.culprit, pathStripRe);
+        var fullURL = data.culprit;
+        data.culprit = '/' + fullURL.substr(fullURL.lastIndexOf('/') + 1);
     }
 
     // NOTE: if data.exception exists, exception.values and exception.values[0] are
@@ -221,7 +223,9 @@ reactNativePlugin._normalizeData = function (data, pathStripRe) {
     var stacktrace = data.stacktrace || data.exception && data.exception.values[0].stacktrace;
     if (stacktrace) {
         stacktrace.frames.forEach(function (frame) {
-            frame.filename = normalizeUrl(frame.filename, pathStripRe);
+            // frame.filename = normalizeUrl(frame.filename, pathStripRe);
+            var fullURL = frame.filename;
+            frame.filename = '/' + fullURL.substr(fullURL.lastIndexOf('/') + 1);
         });
     }
 };
